@@ -23,7 +23,7 @@ const WeatherScreen = (props: Props) => {
   const fetchWeather = async (cityName = "Marikina") => {
     try {
       const location = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},PHL&limit=3&appid=27197d7c5f1afaeb5cc9fec999440b71`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},PHL&limit=3&appid=27197d7c5f1afaeb5cc9fec999440b71`
       );
       const locationData = await location.json();
       const lat = locationData[0].lat;
