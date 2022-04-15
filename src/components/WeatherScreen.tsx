@@ -3,10 +3,12 @@ import background from "../assets/james-donovan-kFHz9Xh3PPU-unsplash.jpg";
 import { Footer } from "./Footer";
 import { Loading } from "./Loading/Loading";
 import { WeatherHeader } from "./WeatherHeader";
+import { round } from "../utils";
+import { WeatherContent } from "./WeatherContent";
 
 type Props = {};
 
-type Weather = {
+export type Weather = {
   [name: string]: any;
 };
 
@@ -30,9 +32,9 @@ const WeatherScreen = (props: Props) => {
         `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=hourly,minutely,current&appid=27197d7c5f1afaeb5cc9fec999440b71`
       );
       const weatherData = await weather.json();
-      setWeatherData(weatherData);
+      setWeatherData({ ...weatherData, city: locationData[0].name });
     } catch (error) {
-      console.log(error);
+      alert("Invalid City")
     }
   };
 
@@ -40,12 +42,14 @@ const WeatherScreen = (props: Props) => {
     fetchWeather();
   }, []);
 
-  const convertTemperature = (temperature: number, unit: TemperatureUnit) => {
-    if (unit === "celsius") {
-      return temperature * (9 / 5) + 32;
-    } else if (unit === "fahrenheit") {
-      return (temperature - 32) * (5 / 9);
-    }
+  const convertToFahrenheit = (celsius: number) => {
+    return celsius * (9 / 5) + 32;
+  };
+
+  const temperature = (temperatureUnit: TemperatureUnit, temp: number) => {
+    return temperatureUnit === "celsius"
+      ? `${round(temp, 1)} °C`
+      : `${round(convertToFahrenheit(temp), 1)} °F`;
   };
 
   const onCityNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,13 +67,9 @@ const WeatherScreen = (props: Props) => {
     setTemperatureUnit(event.target.value as TemperatureUnit);
   };
 
-  const unixToDateTime = (unixTimeStamp: number) => {
-    return new Date(unixTimeStamp * 1000);
-  };
-
   return (
     <div
-      className="h-screen bg-no-repeat bg-center bg-cover"
+      className="h-full sm:h-screen bg-no-repeat bg-center bg-cover"
       style={{
         backgroundImage: `linear-gradient(
         to right,
@@ -83,7 +83,7 @@ const WeatherScreen = (props: Props) => {
           <Loading />
         </div>
       ) : (
-        <div className="h-full grid grid-rows-[10%_80%_10%] text-white">
+        <div className="h-full grid grid-rows-[auto_1fr_auto] text-white">
           <WeatherHeader
             city={city}
             fetchWeather={fetchWeather}
@@ -92,61 +92,11 @@ const WeatherScreen = (props: Props) => {
             onKeyEnter={onKeyEnter}
             onTemperatureUnitChange={onTemperatureUnitChange}
           />
-          <main className="p-4">
-            <div className="w-full flex items-center justify-center text-2xl font-bold">
-              City Name
-            </div>
-            <div className="grid grid-cols-3">
-              <div>
-                <p>Temperature</p>
-                <p>31°C</p>
-              </div>
-              <div>
-                <p>Humidity</p>
-                <p>67%</p>
-              </div>
-              <div>
-                <p>Chance of Rain</p>
-                <p>0.7%</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              Weather Description
-            </div>
-            <div className="grid grid-cols-7">
-              <div>
-                <p>Monday</p>
-                <p>34°C</p>
-              </div>
-
-              <div>
-                <p>Tuesday</p>
-                <p>26°C</p>
-              </div>
-
-              <div>
-                <p>Wednesday</p>
-                <p>25°C</p>
-              </div>
-
-              <div>
-                <p>Thursday</p>
-                <p>33°C</p>
-              </div>
-              <div>
-                <p>Friday</p>
-                <p>35°C</p>
-              </div>
-              <div>
-                <p>Saturday</p>
-                <p>36°C</p>
-              </div>
-              <div>
-                <p>Sunday</p>
-                <p>30°C</p>
-              </div>
-            </div>
-          </main>
+          <WeatherContent
+            temperature={temperature}
+            weatherData={weatherData}
+            temperatureUnit={temperatureUnit}
+          />
           <Footer className="bg-neutral-900 flex justify-center items-center p-2" />
         </div>
       )}
