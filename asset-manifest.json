@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/odin-weather-app/static/css/main.33039a79.css",
+    "main.js": "/odin-weather-app/static/js/main.c1e1637d.js",
+    "static/media/james-donovan-kFHz9Xh3PPU-unsplash.jpg": "/odin-weather-app/static/media/james-donovan-kFHz9Xh3PPU-unsplash.7ce07c4ffafb90a233a0.jpg",
+    "index.html": "/odin-weather-app/index.html",
+    "main.33039a79.css.map": "/odin-weather-app/static/css/main.33039a79.css.map",
+    "main.c1e1637d.js.map": "/odin-weather-app/static/js/main.c1e1637d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.33039a79.css",
+    "static/js/main.c1e1637d.js"
+  ]
+}
