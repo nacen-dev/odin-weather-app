@@ -19,14 +19,11 @@ const WeatherHeader = ({
   onTemperatureUnitChange,
 }: Props) => {
   return (
-    <header className="flex px-3 py-2 items-center justify-between">
+    <header className="grid grid-cols-1 md:grid-cols-[auto-1fr] lg:grid-cols-[1fr_auto] p-4 items-center justify-items-center gap-4">
       <h1 className="text-3xl font-bold">Weather</h1>
 
-      <div className="flex items-center gap-3">
-        <label htmlFor="city" className="text-2xl">
-          City
-        </label>
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 justify-items-center">
+        <div className="flex">
           <input
             type="text"
             name="city"
@@ -35,6 +32,7 @@ const WeatherHeader = ({
             value={city}
             onChange={onCityNameChange}
             onKeyDown={onKeyEnter}
+            placeholder="City Name"
           />
           <button
             className=" bg-cyan-800 py-1 px-4 rounded-md rounded-l-none"
@@ -45,7 +43,7 @@ const WeatherHeader = ({
           </button>
         </div>
 
-        <div className="ml-2 p-2 flex items-center">
+        <div className="ml-2 p-2 flex items-center flex-wrap">
           <p className="text-xl mr-2">Display</p>
           <ul className="flex items-center">
             <li>
